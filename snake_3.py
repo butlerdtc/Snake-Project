@@ -1,7 +1,10 @@
+# Import modules
 import pygame
 import time
+# Initialise pygame module
 pygame.init()
 
+# Makes screen
 screen = pygame.display.set_mode((900, 600))
 game_icon = pygame.image.load('snake_icon.png')
 pygame.display.set_icon(game_icon)
