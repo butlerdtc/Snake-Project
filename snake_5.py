@@ -6,7 +6,7 @@ import random
 pygame.init()
 
 # Makes screen
-screen = pygame.display.set_mode((900, 600))
+screen = pygame.display.set_mode((1000, 720))
 game_icon = pygame.image.load('snake_icon.png')
 pygame.display.set_icon(game_icon)
 pygame.display.set_caption("Snake Game - By Robson Butler")
@@ -27,7 +27,7 @@ msg_font = pygame.font.SysFont("arialblack", 20)
 def message(msg, txt_colour, bkgd_colour):
     txt = msg_font.render(msg, True, txt_colour, bkgd_colour)
 
-    text_box = txt.get_rect(center=(450, 300))
+    text_box = txt.get_rect(center=(500, 360))
     screen.blit(txt, text_box)
 
 
@@ -36,14 +36,14 @@ clock = pygame.time.Clock()
 
 quit_game = False
 
-snake_x = 440
-snake_y = 290
+snake_x = 490
+snake_y = 350
 
 snake_x_change = 0
 snake_y_change = 0
 
-food_x = round(random.randrange(20, 900 - 20) / 20) * 20
-food_y = round(random.randrange(20, 600 - 20) / 20) * 20
+food_x = round(random.randrange(20, 1000 - 20) / 20) * 20
+food_y = round(random.randrange(20, 720 - 20) / 20) * 20
 
 while not quit_game:
     for event in pygame.event.get():
@@ -64,7 +64,7 @@ while not quit_game:
                 snake_x_change = 0
                 snake_y_change = 20
 
-    if snake_x >= 900 or snake_x < 0 or snake_y >= 600 or snake_y < 0:
+    if snake_x >= 1000 or snake_x < 0 or snake_y >= 720 or snake_y < 0:
         quit_game = True
 
     snake_x += snake_x_change
@@ -79,8 +79,8 @@ while not quit_game:
     pygame.display.update()
 
     if snake_x == food_x - 10 and snake_y == food_y - 10:
-        food_x = round(random.randrange(20, 900 - 20) / 20) * 20
-        food_y = round(random.randrange(20, 600 - 20) / 20) * 20
+        food_x = round(random.randrange(20, 1000 - 20) / 20) * 20
+        food_y = round(random.randrange(20, 720 - 20) / 20) * 20
         
     clock.tick(5)
 
