@@ -1,6 +1,7 @@
 # Import modules
 import pygame
 import time
+import random
 # Initialise pygame module
 pygame.init()
 
@@ -15,6 +16,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 red = (246, 38, 38)
 green = (62, 218, 67)
+yellow = (255, 255, 0)
 
 # Fonts
 score_font = pygame.font.SysFont("arialblack", 20)
@@ -39,6 +41,9 @@ snake_y = 290
 
 snake_x_change = 0
 snake_y_change = 0
+
+food_x = round(random.randrange(20, 900 - 20) / 20) * 20
+food_y = round(random.randrange(20, 600 - 20) / 20) * 20
 
 while not quit_game:
     for event in pygame.event.get():
@@ -70,7 +75,14 @@ while not quit_game:
     pygame.draw.rect(screen, red, [snake_x, snake_y, 20, 20])
     pygame.display.update()
 
-    clock.tick(15)
+    pygame.draw.circle(screen, yellow, [food_x, food_y], 10)
+    pygame.display.update()
+
+    if snake_x == food_x - 10 and snake_y == food_y - 10:
+        food_x = round(random.randrange(20, 900 - 20) / 20) * 20
+        food_y = round(random.randrange(20, 600 - 20) / 20) * 20
+        
+    clock.tick(5)
 
 message("You died!", black, white)
 pygame.display.update()
