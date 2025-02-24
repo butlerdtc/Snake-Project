@@ -38,10 +38,27 @@ def load_high_score():
     return value
 
 
-def player_score(score, score_colour):
+def update_high_score(score, high_score):
+    if int(score) > int(high_score):
+        return score
+    else:
+        return high_score
+
+
+def save_high_score(high_score):
+    high_score_file = open("HI_score.txt", 'w')
+    high_score_file.write(str(high_score))
+    high_score_file.close()
+
+
+def player_score(score, score_colour, hi_score):
     display_score = score_font.render(f"Score: {score}", True,
                                       score_colour)
     screen.blit(display_score, (780, 20))
+
+    display_score = score_font.render(f"High Score: {hi_score}",
+                                      True, score_colour)
+    screen.blit(display_score, (10, 10))
 
 
 def draw_snake(snake_list):
@@ -73,10 +90,10 @@ def game_loop():
     food_y = round(random.randrange(20, 660 - 20) / 20) * 20
 
     high_score = load_high_score()
-    print(f"high_score test: {high_score}")
-
+    
     while not quit_game:
         while game_over:
+            save_high_score(high_score)
             screen.fill(white)
             message("You died! Press 'Q' to Quit or 'A' to Play Again",
                     black, white)
@@ -149,7 +166,9 @@ def game_loop():
         draw_snake(snake_list)
 
         score = snake_length - 1
-        player_score(score, black)
+        player_score(score, black, high_score)
+
+        high_score = update_high_score(score, high_score)
 
         if score > 3:
             speed = score
