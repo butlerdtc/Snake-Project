@@ -129,14 +129,21 @@ def game_loop():
     food_x = round(random.randrange(20, 900 - 20) / 20) * 20
     food_y = round(random.randrange(20, 660 - 20) / 20) * 20
 
+    # Gets the high score from the text file
     high_score = load_high_score()
-    
+
+    # Keeps the game running until user has chosen to quit
     while not quit_game:
+        # Gives user option to quit if they die
         while game_over:
+            # Saves high score if updated or not
             save_high_score(high_score)
+            # This makes the screen white
             screen.fill(white)
+            # Displays death message on the screen
             message("You died! Press 'Q' to Quit or 'A' to Play Again",
                     black, white)
+            # Updates display
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -215,7 +222,6 @@ def game_loop():
         else:
             speed = 3
 
-
         food = pygame.Rect(food_x, food_y, 20, 20)
         # Use 'convert_alpha' for png files but use 'convert' for jpg
         apple = pygame.image.load('apple_3.png').convert_alpha()
@@ -237,9 +243,7 @@ def game_loop():
             
             snake_length += 1
 
-
         clock.tick(speed)
-
 
     pygame.quit()
     quit()
