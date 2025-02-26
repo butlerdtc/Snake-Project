@@ -146,72 +146,105 @@ def game_loop():
             # Updates display
             pygame.display.update()
 
+            # Iterates through events (user input)
             for event in pygame.event.get():
+                # If user clicks a key
                 if event.type == pygame.KEYDOWN:
+                    # If user selects 'Q' key quits the game
                     if event.key == pygame.K_q:
                         quit_game = True
                         game_over = False
+                    # If user selects 'A' runs game again
                     if event.key == pygame.K_a:
                         game_loop()
 
+        # Iterates through user input
         for event in pygame.event.get():
+            # Checks if user clicks X at top right
             if event.type == pygame.QUIT:
                 instructions = ("Exit: 'X' to Quit, 'SPACE' to Resume, 'R' to"
                                 " Reset")
+                # Displays end instruction message
                 message(instructions, white, black)
+
                 pygame.display.update()
 
                 end = False
+                # Until end is True loops these control events
                 while not end:
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
+                    for event_ in pygame.event.get():
+                        # If user selects X at top right game quits
+                        if event_.type == pygame.QUIT:
                             quit_game = True
                             end = True
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_r:
+                        if event_.type == pygame.KEYDOWN:
+                            # If user selects 'R' game resets
+                            if event_.key == pygame.K_r:
                                 end = True, game_loop()
-                            if event.key == pygame.K_SPACE:
+                            # If user selects 'SPACE' game resumes
+                            if event_.key == pygame.K_SPACE:
                                 end = True
-                            if event.key == pygame.K_q:
+                            # If user selects 'Q' game quits
+                            if event_.key == pygame.K_q:
                                 quit_game = True
                                 end = True
-                            if event.key == pygame.K_x:
+                            # If user selects 'X' (keyboard) game quits
+                            if event_.key == pygame.K_x:
                                 quit_game = True
                                 end = True
 
+            # If user clicks a key
             if event.type == pygame.KEYDOWN:
+                # Moves snake left if left arrow key selected
                 if event.key == pygame.K_LEFT:
                     snake_x_change = -20
                     snake_y_change = 0
+                # Moves snake right if right arrow key selected
                 elif event.key == pygame.K_RIGHT:
                     snake_x_change = 20
                     snake_y_change = 0
+                # Moves snake up if up arrow key selected
                 elif event.key == pygame.K_UP:
                     snake_x_change = 0
                     snake_y_change = -20
+                # Moves snake down if down arrow key selected
                 elif event.key == pygame.K_DOWN:
                     snake_x_change = 0
                     snake_y_change = 20
 
+        # Checks if the snake head is off the screen and runs game over loop
         if snake_x >= 900 or snake_x < 0 or snake_y >= 660 or snake_y < 0:
             game_over = True
 
+        # Updates snake head coordinates with x/y change from user input
         snake_x += snake_x_change
         snake_y += snake_y_change
 
+        # Makes background green for game
         screen.fill(green)
 
+        # Coordinates of the snake head
         snake_head = [snake_x, snake_y]
+        # Adds updated head coordinates to snake list
         snake_list.append(snake_head)
+
+        # If there are more coordinates in the snake list than there are number
+        # of snake body pieces it will delete the first set so that the next
+        # coordinates are first (these are the updated snake head location)
         if len(snake_list) > snake_length:
             del snake_list[0]
 
+        # Checks if snake head matches coordinates of any other snake body
+        # location (If snake crosses itself)
+        # The :-1 means it counts from the end of the list
         for x in snake_list[:-1]:
              if x == snake_head:
                  game_over = True
 
+        # Draws snake using coordinates in snake list
         draw_snake(snake_list)
 
+        
         score = snake_length - 1
         player_score(score, black, high_score)
 
