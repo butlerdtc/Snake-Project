@@ -1,4 +1,5 @@
 """Snake Game final version - Created by Robson Butler 25/02/25 """
+# Note to add font files for excellence
 
 # Import modules
 import pygame
@@ -244,41 +245,55 @@ def game_loop():
         # Draws snake using coordinates in snake list
         draw_snake(snake_list)
 
-        
+        # Sets score to length of snake - snake head
         score = snake_length - 1
+        # Runs function to display score
         player_score(score, black, high_score)
 
+        # Gets the updated high score (changed or not)
         high_score = update_high_score(score, high_score)
 
+        # Changes clock tick speed (snake speed) to match score after first 3
+        # food have been eaten
         if score > 3:
             speed = score
         else:
             speed = 3
 
+        # Changes the food from circle to a sprite (Image to represent object)
+
+        # This makes a rectangular surface
         food = pygame.Rect(food_x, food_y, 20, 20)
-        # Use 'convert_alpha' for png files but use 'convert' for jpg
+        # Load image (Use 'convert_alpha' for png files and 'convert' for jpg)
         apple = pygame.image.load('apple_3.png').convert_alpha()
+        # This resizes the food (smooth scale gives less pixelated appearance)
         resized_apple = pygame.transform.smoothscale(apple, [20, 20])
+        # Food is blitted onto the surface
         screen.blit(resized_apple, food)
 
         pygame.display.update()
 
-        print(f"Snake X: {snake_x}")
-        print(f"Food X: {food_x}")
-        print(f"Snake Y: {snake_y}")
-        print(f"Food Y: {food_y}")
+        # Test statements for snake and food location
+        # print(f"Snake X: {snake_x}")
+        # print(f"Food X: {food_x}")
+        # print(f"Snake Y: {snake_y}")
+        # print(f"Food Y: {food_y}")
 
+        # Detects if snake touches the food
         if snake_x == food_x and snake_y == food_y:
+            # Sets new coordinates of food if snake touches
             food_x = round(random.randrange(20, 900 - 20) / 20) * 20
             food_y = round(random.randrange(20, 660 - 20) / 20) * 20
-            # Testing
-            print("Got it")
-            
+
+            # Increases snake length if food has been eaten
             snake_length += 1
 
+        # Sets the speed at which the game loop runs in frames per second (fps)
         clock.tick(speed)
 
+    # This stops the pygame module from running
     pygame.quit()
+    # This quits the current program (file)
     quit()
 
 
