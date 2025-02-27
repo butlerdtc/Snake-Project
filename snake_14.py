@@ -50,7 +50,7 @@ def load_high_score():
     return value
 
 
-# Function to update text file with new high score
+# Function to update high score
 def update_high_score(score, high_score):
     # Checks if new score is greater than current high score
     if int(score) > int(high_score):
@@ -74,11 +74,11 @@ def player_score(score, score_colour, hi_score):
     display_score = score_font.render(f"Score: {score}", True,
                                       score_colour)
     # Blit draws the text/image (score) onto another image (screen)
-    screen.blit(display_score, (780, 20))
+    screen.blit(display_score, (780, 10))
 
     display_score = score_font.render(f"High Score: {hi_score}",
                                       True, score_colour)
-    screen.blit(display_score, (10, 10))
+    screen.blit(display_score, (20, 10))
 
 
 # Function to draw the snake
@@ -137,8 +137,6 @@ def game_loop():
     while not quit_game:
         # Gives user option to quit if they die
         while game_over:
-            # Saves high score if updated or not
-            save_high_score(high_score)
             # This makes the screen white
             screen.fill(white)
             # Displays death message on the screen
@@ -290,6 +288,9 @@ def game_loop():
 
         # Sets the speed at which the game loop runs in frames per second (fps)
         clock.tick(speed)
+
+    # Saves high score if updated or not
+    save_high_score(high_score)
 
     # This stops the pygame module from running
     pygame.quit()
