@@ -7,8 +7,14 @@ import random
 # Initialise pygame module
 pygame.init()
 
+# Screen dimension variables
+screen_width = 900
+screen_height = 660
+screen_center_x = screen_width / 2
+screen_center_y = screen_height / 2
+
 # Makes screen and sets icon and name for the display
-screen = pygame.display.set_mode((900, 660))
+screen = pygame.display.set_mode((screen_width, screen_height))
 # Loads the image file to use for the windows icon
 game_icon = pygame.image.load('snake_icon.png')
 pygame.display.set_icon(game_icon)
@@ -99,7 +105,7 @@ def message(msg, txt_colour, bkgd_colour):
     txt = msg_font.render(msg, True, txt_colour, bkgd_colour)
 
     # Center sets the center of the rectangle to be the coordinates given
-    text_box = txt.get_rect(center=(450, 330))
+    text_box = txt.get_rect(center=(screen_center_x, screen_center_y))
 
     # Draws the text onto the textbox - Check line 75
     screen.blit(txt, text_box)
@@ -112,8 +118,8 @@ def game_loop():
 
     # Sets initial coordinates of snake to center of screen
     # ((length/width of screen - 20) / 2)
-    snake_x = 440
-    snake_y = 320
+    snake_x = (screen_width - 20) / 2
+    snake_y = (screen_height - 20) / 2
 
     # Initialises the change in x and y value of snake to 0
     snake_x_change = 0
@@ -127,8 +133,8 @@ def game_loop():
     # Random range starts at 20 and ends at 880 as food is 20 px wide so this
     # makes it so it will never be off-screen, dividing, rounding and
     # multiplying by 20 ensures it will always be in increments of 20
-    food_x = round(random.randrange(20, 900 - 20) / 20) * 20
-    food_y = round(random.randrange(20, 660 - 20) / 20) * 20
+    food_x = round(random.randrange(20, screen_width - 20) / 20) * 20
+    food_y = round(random.randrange(20, screen_height - 20) / 20) * 20
 
     # Gets the high score from the text file
     high_score = load_high_score()
@@ -212,7 +218,8 @@ def game_loop():
                     snake_y_change = 20
 
         # Checks if the snake head is off the screen and runs game over loop
-        if snake_x >= 900 or snake_x < 0 or snake_y >= 660 or snake_y < 0:
+        if (snake_x >= screen_width or snake_x < 0 or snake_y >= screen_height
+                or snake_y < 0):
             game_over = True
 
         # Updates snake head coordinates with x/y change from user input
@@ -280,8 +287,10 @@ def game_loop():
         # Detects if snake touches the food
         if snake_x == food_x and snake_y == food_y:
             # Sets new coordinates of food if snake touches
-            food_x = round(random.randrange(20, 900 - 20) / 20) * 20
-            food_y = round(random.randrange(20, 660 - 20) / 20) * 20
+            food_x = (round(random.randrange(20, screen_width - 20) / 20)
+                      * 20)
+            food_y = (round(random.randrange(20, screen_height - 20) / 20
+                            ) * 20)
 
             # Increases snake length if food has been eaten
             snake_length += 1
